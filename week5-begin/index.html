@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Seussology</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+  <script src="../assets/books.js"></script>
+</head>
+
+<body>
+  <main>
+    <header class="header">
+      <img class="header-image" src="../assets/images/seussology-logo.svg" alt="Seussology">
+      <h1 class="header-title">Books</h1>
+    </header>
+    <section id="app">
+
+      <form class="form" @submit.prevent="">
+        <div class="form-group flex-grow">
+          <input type="search" class="form-input" placeholder="Search books titles..." v-model="query">
+          <button type="submit" class="form-submit"><i class="fas fa-search fa-2x"></i></button>
+        </div>
+      </form>
+
+      <div class="filters">
+        <button v-for="(value, key) in shelves" class="button" @click="property=key">{{ key }}</button>
+      </div>
+      <shelf v-for="(shelf, index) in shelves[property]" :key="index" :books="books" :property="property"
+        :value="shelf"></shelf>
+
+
+      <div v-cloak v-if="selectedBook" class="modal">
+        <div class="selected-book">
+          <button class="modal-close" @click="selectedBook = false"><i class="fas fa-times"></i></button>
+          <div class="selected-book-image">
+            <img :src="'../assets/images/covers/'+ selectedBook.image" :title="selectedBook.title">
+          </div>
+          <div class="selected-book-details">
+            <h2>{{ selectedBook.title }}
+              ({{ selectedBook.year }})</h2>
+            <p>{{ selectedBook.description }}</p>
+            <blockquote class="selected-book-quote" v-for="quote in selectedBook.quotes">
+              {{ quote }}
+            </blockquote>
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
